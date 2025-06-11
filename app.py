@@ -1,5 +1,5 @@
 from flask import Flask,jsonify,request
-from matches import teamapi,teamvsteam,players,team_details,batter_details
+from matches import teamapi,teamvsteam,players,team_details,batter_details,bowler_details
 import json
 
 
@@ -41,6 +41,11 @@ def get_batsman_details():
     return response
 
 
+@app.route("/api/bowlersDetail",methods=['GET'])
+def get_bowlers_details():
+    bowler_detail = request.args.get("playerName")
+    response = bowler_details(bowler_detail)
+    return response
 
 
 app.run(debug=True)
