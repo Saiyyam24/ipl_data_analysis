@@ -92,37 +92,25 @@ def batter_details(batter_name):
         "teams of batter": teams_of_batter,
         "total match played": total_match_played
     })
-
-def bowler_details(bowllerName):
-    matches = pd.read_csv("matches.csv")
-    df = pd.read_csv("deliveries.csv")
-    playerofmatch = matches[matches["player_of_match"]==bowllerName]
-    p = df.groupby("bowler")
-    val = p.get_group(bowllerName)
-    if bowllerName in p.groups:
-        val = p.get_group(bowllerName)
-        total_game_played = len(val.groupby('match_id'))
-        bowlers_team = list(set(val["bowling_team"]))
-    else:
+def bowler_details(bowllerName): 
+    matches = pd.read_csv("matches.csv") 
+    df = pd.read_csv("deliveries.csv") 
+    playerofmatch = matches[matches["player_of_match"]==bowllerName] 
+    p = df.groupby("bowler") 
+    val = p.get_group(bowllerName) 
+    if bowllerName in p.groups: 
+        val = p.get_group(bowllerName) 
+        total_game_played = len(val.groupby('match_id')) 
+        bowlers_team = list(set(val["bowling_team"])) 
+    else: 
         return json.dumps({"error": f"{bowllerName} not found in dataset"})
+    
+
+    return json.dumps({ "bowler_name": bowllerName, 
+                       "no of time player of match": len(playerofmatch),
+                         "total games played":total_game_played, 
+                         "bowlers_team": bowlers_team })
 
 
-    return json.dumps({
-        "bowler_name": bowllerName,
-        "no of time player of match": len(playerofmatch),
-        "total games played":total_game_played,
-        "bowlers_team": bowlers_team    
-    })
 
 
-
-# val = teamvsteam("Royal Challengers Bangalore","Mumbai Indians")
-# print(val)
-
-# val = players('Royal Challengers Bangalore')
-# print(val)
-
-# val = team_details('Royal Challengers Bangalore')
-# print(val)
-# data = bowler_detail("P Kumar")
-# print(data)
